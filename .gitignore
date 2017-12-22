@@ -18,3 +18,6 @@ var/
 
 # Serverless directories
 .serverless
+.idea/
+__pycache__/
+lunchbot.iml
