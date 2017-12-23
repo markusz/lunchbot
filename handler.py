@@ -1,14 +1,7 @@
 import json
 from tabulate import tabulate
+from hacker_handler import get_hacker_lunch
 from leonardi_handler import get_cantine_lunch
-
-class MenuItem:
-    """A simple example class"""
-    i = 12345
-
-    def f(self):
-        return 'hello world'
-
 
 def hello(event, context):
     body = {
@@ -20,10 +13,16 @@ def hello(event, context):
         "statusCode": 200,
         "body": json.dumps(body)
     }
+    all_dishes = []
 
     leonardi_results = get_cantine_lunch()
-    print(tabulate(leonardi_results))
+    hacker_results = get_hacker_lunch()
+    # print(tabulate(leonardi_results))
 
+    all_dishes.extend(leonardi_results)
+    all_dishes.extend(hacker_results)
+    squared = list(map(lambda x: x.to_array(), all_dishes))
+    print(tabulate(squared))
     return response
 
 if __name__ == '__main__':
