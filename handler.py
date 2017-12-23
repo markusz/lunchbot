@@ -17,10 +17,11 @@ def hello(event, context):
 
     leonardi_results = get_cantine_lunch()
     hacker_results = get_hacker_lunch()
-    # print(tabulate(leonardi_results))
 
     all_dishes.extend(leonardi_results)
     all_dishes.extend(hacker_results)
+    print(json.dumps(all_dishes, default=lambda o: o.__dict__))
+
     squared = list(map(lambda x: x.to_array(), all_dishes))
     print(tabulate(squared))
     return response
