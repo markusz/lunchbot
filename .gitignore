@@ -21,3 +21,4 @@ var/
 .idea/
 __pycache__/
 lunchbot.iml
+node_modules/*
