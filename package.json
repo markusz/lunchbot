@@ -1,0 +1,22 @@
+{
+  "name": "lunchbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markusz/lunchbot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/markusz/lunchbot/issues"
+  },
+  "homepage": "https://github.com/markusz/lunchbot#readme",
+  "dependencies": {
+    "serverless-python-requirements": "^3.2.1"
+  }
+}
