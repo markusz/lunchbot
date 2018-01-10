@@ -1,10 +1,10 @@
 import re
 from io import BytesIO
-from tabulate import tabulate
-from dish import Dish
+
+from datetime import datetime
+from src.models.dish import Dish
 
 import PyPDF2
-import requests
 import requests
 
 url = "http://www.comfort-hotel-am-medienpark.de/images/pdf/Wochenkarte.pdf"
@@ -41,7 +41,7 @@ def idx_to_name_of_day(idx):
         return 'Freitag'
 
 
-def extracted_text_to_items(text):
+def extracted_text_to_items(text, date=None):
     dishes = []
     joined = ''.join(text)
 
@@ -56,14 +56,16 @@ def extracted_text_to_items(text):
     items_per_day = [monday, tuesday, wednesday, thursday, friday]
 
     for idx, day in enumerate(items_per_day):
-        for item in day:
-            dishes.append(Dish('Hacker', item, None, None, None))
-            # print('-', idx_to_name_of_day(idx), item)
+        if date is None or idx == date.weekday():
+            for item in day:
+                splitted = item.split(' mit ')
+                dish_name = splitted[0] if splitted[0][0].isupper() else '<Gericht> ' + splitted[0]
+                dishes.append(Dish('Hacker', dish_name, splitted[1] if len(splitted) > 1 else None, None, None))
 
     return dishes
 
 
-def get_hacker_lunch():
+def get_hacker_lunch(date=datetime.now(), show_only_current_day=True):
     reader = url_to_pypdf(url)
     contents = reader.getPage(0).extractText().split('\n')
-    return extracted_text_to_items(contents)
+    return extracted_text_to_items(contents, date if show_only_current_day else None)
