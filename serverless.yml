@@ -27,6 +27,17 @@ functions:
     handler: handler.get_all_dishes
     events:
       - http:
+          path: /api
+          method: get
+          cors: true
+  serveWebUI:
+    handler: handler.serve_html
+    events:
+      - http:
+          path: /ui
+          method: get
+          cors: true
+      - http:
           path: /
           method: get
           cors: true

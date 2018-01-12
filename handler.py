@@ -21,6 +21,22 @@ def filter(filters, dish, inclusive):
 
     return False
 
+def serve_html(event, context):
+
+    import codecs
+    html = codecs.open("./web/index.html", 'r')
+
+    response = {
+        'statusCode': 200,
+        'headers': {
+            'Content-Type': 'text/html',
+        },
+        'body': html.read()
+    }
+
+    return response
+
+
 
 def get_all_dishes(event, context):
     print(event)
@@ -90,5 +106,6 @@ if __name__ == '__main__':
             # 'maxprice': 5.00
         }
     }
-    res = get_all_dishes(event, None)
+    # res = get_all_dishes(event, None)
+    res = serve_html(event, None)
     # schroeders_scrape()
