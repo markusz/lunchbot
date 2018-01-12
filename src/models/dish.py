@@ -1,5 +1,5 @@
 class Dish:
-    def __init__(self, venue, dish, ingredients, price, kcal):
+    def __init__(self, venue, dish, ingredients=None, price=None, kcal=None):
         self.venue = venue
         self.dish = dish
         self.ingredients = ingredients
@@ -8,6 +8,12 @@ class Dish:
 
     def __str__(self):
         return '%s, %s, %s, %s, %s' % (self.venue, self.dish, self.ingredients, self.price, self.kcal)
+
+    def cheapter_than(self, price):
+        return self.price == None or self.price < price
+
+    def less_kcal_than(self, kcal):
+        return self.kcal == None or self.kcal < kcal
 
     def to_array(self):
         return [
