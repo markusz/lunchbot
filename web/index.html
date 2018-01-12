@@ -15,22 +15,26 @@
             integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <link rel="stylesheet" ; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
-    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
 
 </head>
 <script>
-  const app = angular.module('myApp', ["ngTable"]);
-
+  const app = angular.module('myApp', []);
+  app.config(function($locationProvider) {
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
+  });
 
   app.filter('numberOfKeys', () => (object) => Object.keys(object).length);
-  app.controller('MainController', ['$scope', '$http', 'NgTableParams', ($scope, $http, NgTableParams) => {
-    var self = this;
+  app.controller('MainController', ['$scope', '$http', '$location', ($scope, $http, $location) => {
+    const self = this;
     $scope.data = [];
     $scope.getData = () => {
-      $http.get('https://lunch.markusziller.de?json=true').then((data, status) => {
+      const queryparams = $location.search();
+      queryparams.json = true;
+      $http.get('https://lunch.markusziller.de/api', { params: queryparams }).then((data, status) => {
         $scope.data = data.data;
-        self.tableParams = new NgTableParams({}, { dataset: $scope.data });
         console.log($scope.data)
       }, (data, status) => {
         $scope.error = data;
