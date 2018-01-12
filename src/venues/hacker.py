@@ -4,6 +4,7 @@ from datetime import datetime
 from src.models.dish import Dish
 
 from src.utils.pdf_util import url_to_pypdf
+from src.utils.text_util import extract_data_from_text
 
 url = "http://www.comfort-hotel-am-medienpark.de/images/pdf/Wochenkarte.pdf"
 
@@ -36,7 +37,7 @@ def extracted_text_to_items(text, date=None):
     dishes = []
     joined = ''.join(text)
 
-    m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)", joined)
+    m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)Alle Preise verstehen+?(.+)", joined)
 
     monday = process_single_day_from_pdf(m.group(2))
     tuesday = process_single_day_from_pdf(m.group(3))
@@ -49,8 +50,7 @@ def extracted_text_to_items(text, date=None):
     for idx, day in enumerate(items_per_day):
         if date is None or idx == date.weekday():
             for item in day:
-                splitted = item.split(' mit ')
-                dish_name = splitted[0] if splitted[0][0].isupper() else '<Gericht> ' + splitted[0]
+                splitted = extract_data_from_text(item)
                 if splitted[0][0].isupper():
                     dishes.append(Dish('Hacker', splitted[0], splitted[1] if len(splitted) > 1 else None, None, None))
 
