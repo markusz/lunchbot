@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mittags in Unterföhring</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <link rel="stylesheet" ; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+
+</head>
+<script>
+  const app = angular.module('myApp', ["ngTable"]);
+
+
+  app.filter('numberOfKeys', () => (object) => Object.keys(object).length);
+  app.controller('MainController', ['$scope', '$http', 'NgTableParams', ($scope, $http, NgTableParams) => {
+    var self = this;
+    $scope.data = [];
+    $scope.getData = () => {
+      $http.get('https://lunch.markusziller.de?json=true').then((data, status) => {
+        $scope.data = data.data;
+        self.tableParams = new NgTableParams({}, { dataset: $scope.data });
+        console.log($scope.data)
+      }, (data, status) => {
+        $scope.error = data;
+      });
+    };
+
+    $scope.getData();
+  }]);
+</script>
+<body>
+<div ng-app="myApp" ng-controller="MainController">
+    <table class="table table-sm table-bordered table-hover" style="font-size: small;">
+        <thead class="thead-dark">
+        <tr>
+            <th>Lokal</th>
+            <th>Gericht</th>
+            <th>Zutaten</th>
+            <th>Preis</th>
+            <th>Kalorien</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data">
+            <td>
+                {{item.venue}}
+            </td>
+            <td>
+                {{item.dish}}
+            </td>
+            <td>
+                {{item.ingredients}}
+            </td>
+            <td>
+                {{item.price | currency: "€"}}
+            </td>
+            <td>
+                {{item.kcal}}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
