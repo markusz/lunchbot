@@ -6,6 +6,10 @@ plugins:
 custom:
   pythonRequirements:
     dockerizePip: true
+  customDomain:
+    domainName: lunch.markusziller.de
+    basePath: ''
+    stage: ${self:provider.stage}
 
 provider:
   name: aws
@@ -23,5 +27,6 @@ functions:
     handler: handler.get_all_dishes
     events:
       - http:
-          path: lunch/today
+          path: /
           method: get
+          cors: true

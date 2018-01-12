@@ -18,5 +18,8 @@
   "homepage": "https://github.com/markusz/lunchbot#readme",
   "dependencies": {
     "serverless-python-requirements": "^3.2.1"
+  },
+  "devDependencies": {
+    "serverless-domain-manager": "^2.1.0"
   }
 }
