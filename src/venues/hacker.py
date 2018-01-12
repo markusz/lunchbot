@@ -52,7 +52,7 @@ def extracted_text_to_items(text, date=None):
             for item in day:
                 splitted = extract_data_from_text(item)
                 if splitted[0][0].isupper():
-                    dishes.append(Dish('Hacker', splitted[0], splitted[1] if len(splitted) > 1 else None, None, None))
+                    dishes.append(Dish('Hacker', splitted[0], splitted[1] if len(splitted) > 1 else None,src=url))
 
     return dishes
 

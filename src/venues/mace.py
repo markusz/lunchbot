@@ -26,7 +26,8 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
             'MACE (Restaurant)',
             extract_data_from_text(res[0].strip())[0],
             extract_data_from_text(res[0].strip())[1],
-            price=float(res[1].replace(',','.'))
+            price=float(res[1].replace(',','.')),
+            src=url
         )
         for res
         in restaurant
@@ -38,7 +39,8 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
             'MACE (Kitchen)',
             extract_data_from_text(res[0].strip())[0],
             extract_data_from_text(res[0].strip())[1],
-            price=float(res[1].replace(',','.'))
+            price=float(res[1].replace(',','.')),
+            src=url
         )
         for res
         in kitchen

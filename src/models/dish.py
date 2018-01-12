@@ -1,10 +1,11 @@
 class Dish:
-    def __init__(self, venue, dish, ingredients=None, price=None, kcal=None):
+    def __init__(self, venue, dish, ingredients=None, price=None, kcal=None, src=None):
         self.venue = venue
         self.dish = dish
         self.ingredients = ingredients
         self.price = price
         self.kcal = kcal
+        self.src = src
 
     def __str__(self):
         return '%s, %s, %s, %s, %s' % (self.venue, self.dish, self.ingredients, self.price, self.kcal)

@@ -2,10 +2,13 @@ from datetime import datetime
 
 import requests
 
-from src.utils.date_util import to_date
 from src.models.dish import Dish
+from src.utils.date_util import to_date
 
 MAIN = 4
+
+ui_url = 'http://leonardi.webspeiseplan.de/Menu'
+api_url = 'http://leonardi.webspeiseplan.de/index.php?token=d38436e0839755e6cde59cbda0fff016&model=menu&location=2100&languagetype=1&_=1513876707612'
 
 
 def food_menu_applies_today(provider):
@@ -15,7 +18,7 @@ def food_menu_applies_today(provider):
 
 def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
     res = requests.get(
-        'http://leonardi.webspeiseplan.de/index.php?token=d38436e0839755e6cde59cbda0fff016&model=menu&location=2100&languagetype=1&_=1513876707612',
+        api_url,
         headers={'User-agent': 'crawler'}
     )
 
@@ -42,5 +45,5 @@ def menu_item_to_dish(menu_item):
     kj = menu_item['zusatzinformationen'].get('nwkjInteger', None)
     # API is pretty unreliable regarding kcal / kj data, i.e. sometimes mislabels kj and kcal, no values at all
     actual_kcal = None if kcal is None and kj is None else min(kcal, kj)
-    dish_ = Dish('Kantine (P7)', dish_name, ingredients, price, actual_kcal)
+    dish_ = Dish('Kantine (P7)', dish_name, ingredients, price, actual_kcal, src=ui_url)
     return dish_

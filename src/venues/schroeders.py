@@ -62,6 +62,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
         if date is None or idx == date.weekday():
             for item in day:
                 splitted = extract_data_from_text(item)
-                dishes.append(Dish('Schroeders', splitted[0], splitted[1], None, None))
+                dishes.append(Dish('Schroeders', splitted[0], splitted[1], src=url))
 
     return dishes

@@ -100,12 +100,10 @@ def get_all_dishes(event, context):
 if __name__ == '__main__':
     event = {'queryStringParameters':
         {
-            # 'json': 'true',
+            'json': 'true',
             # 'only': 'mace,hacker',
             # 'maxkcal': 1000,
             # 'maxprice': 5.00
         }
     }
-    # res = get_all_dishes(event, None)
-    res = serve_html(event, None)
-    # schroeders_scrape()
+    res = get_all_dishes(event, None)
