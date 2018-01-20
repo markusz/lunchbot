@@ -26,7 +26,6 @@
     });
   });
 
-  app.filter('numberOfKeys', () => (object) => Object.keys(object).length);
   app.controller('MainController', ['$scope', '$http', '$location', ($scope, $http, $location) => {
     const self = this;
     $scope.data = [];
