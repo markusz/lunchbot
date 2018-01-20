@@ -2,7 +2,6 @@ import re
 from datetime import datetime
 
 import requests
-# import urllib2
 from bs4 import BeautifulSoup
 
 from src.models.dish import Dish
@@ -18,7 +17,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
         url,
         headers={'User-agent': 'crawler'}
     )
-    # page = urllib2.urlopen(quote_page)
     soup = BeautifulSoup(res.content, 'html.parser')
 
     menu = soup.find('div', attrs={'class': 'tx_in2wm_show_all_menu_day today'})

@@ -1,12 +1,12 @@
 import re
-
 from datetime import datetime
-from src.models.dish import Dish
 
+from src.models.dish import Dish
 from src.utils.pdf_util import url_to_pypdf
 from src.utils.text_util import extract_data_from_text
 
 url = "http://schroeders-restaurant.com/wp-content/uploads/2017/06/Schroeders-Wochenkarte.pdf"
+
 
 def process_single_day_from_pdf(day_string):
     stripped = day_string.strip()
@@ -22,22 +22,20 @@ def process_single_day_from_pdf(day_string):
 
     # Removes Drink der Woche / Dessert
     filtered_content = [
-        re.sub('(Unser Drink der Woche|Dessert)(.+?)$', '',x).strip()
+        re.sub('(Unser Drink der Woche|Dessert)(.+?)$', '', x).strip()
         for x
         in filtered_content
     ]
 
     # Prices can not be extracted properly from PDF -> omit them
     filtered_content = [
-        re.sub(' [0-9]+$', '',x)
+        re.sub(' [0-9]+$', '', x)
         for x
         in filtered_content
     ]
 
-
-    print(filtered_content)
-
     return filtered_content
+
 
 def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
     reader = url_to_pypdf(url)
@@ -48,7 +46,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
     reduced_string = re.sub(r'\n', ' ', reduced_string)
 
     m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)", reduced_string)
-
 
     monday = process_single_day_from_pdf(m.group(2))
     tuesday = process_single_day_from_pdf(m.group(3))

@@ -8,6 +8,7 @@ from src.utils.text_util import extract_data_from_text
 
 url = "http://mace-restaurant.de/wp-content/uploads/2015/08/MACE_Tageskarte.pdf"
 
+
 def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
     reader = url_to_pypdf(url)
     text = reader.getPage(0).extractText()
