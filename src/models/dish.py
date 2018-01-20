@@ -10,17 +10,17 @@ class Dish:
     def __str__(self):
         return '%s, %s, %s, %s, %s' % (self.venue, self.dish, self.ingredients, self.price, self.kcal)
 
-    def cheapter_than(self, price):
-        return self.price == None or self.price < price
+    def is_cheaper_than(self, price):
+        return self.price is None or self.price < price
 
-    def less_kcal_than(self, kcal):
-        return self.kcal == None or self.kcal < kcal
+    def has_less_kcal_than(self, kcal):
+        return self.kcal is None or self.kcal < kcal
 
     def to_array(self):
         return [
             self.venue,
             self.dish,
-            self.ingredients if self.ingredients != None else '-',
-            '%0.2f€' % self.price if self.price != None else '-',
-            '%s' % self.kcal if self.kcal != None else '-'
+            self.ingredients if self.ingredients is not None else '-',
+            '%0.2f€' % self.price if self.price is not None else '-',
+            '%s' % self.kcal if self.kcal is not None else '-'
         ]
