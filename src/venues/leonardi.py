@@ -45,6 +45,12 @@ def menu_item_to_dish(menu_item):
     kj = menu_item['zusatzinformationen'].get('nwkjInteger', None)
 
     # API is pretty unreliable regarding kcal / kj data, i.e. sometimes mislabels kj and kcal or has no values at all
-    actual_kcal = None if kcal is None and kj is None else min(kcal, kj)
+
+    if kcal is None and kj is None:
+        actual_kcal = None
+    elif kcal is not None and kj is not None:
+        actual_kcal = min(kcal, kj)
+    else:
+        actual_kcal = kj if kcal is None else kcal
 
     return Dish('Kantine (P7)', dish_name, ingredients, price, actual_kcal, src=ui_url)
