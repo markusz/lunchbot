@@ -38,27 +38,30 @@ def process_single_day_from_pdf(day_string):
 
 
 def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
-    reader = url_to_pypdf(url)
-    text = reader.getPage(0).extractText()
-    dishes = []
+    try:
+        reader = url_to_pypdf(url)
+        text = reader.getPage(0).extractText()
+        dishes = []
 
-    reduced_string = re.sub(r'Tagespizza|Tagesempfehlung|Tageskarte am [0-9]{2}.[0-9]{2}.[0-9]{4}', '', text)
-    reduced_string = re.sub(r'\n', ' ', reduced_string)
+        reduced_string = re.sub(r'Tagespizza|Tagesempfehlung|Tageskarte am [0-9]{2}.[0-9]{2}.[0-9]{4}', '', text)
+        reduced_string = re.sub(r'\n', ' ', reduced_string)
 
-    m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)", reduced_string)
+        m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)", reduced_string)
 
-    monday = process_single_day_from_pdf(m.group(2))
-    tuesday = process_single_day_from_pdf(m.group(3))
-    wednesday = process_single_day_from_pdf(m.group(4))
-    thursday = process_single_day_from_pdf(m.group(5))
-    friday = process_single_day_from_pdf(m.group(6))
+        monday = process_single_day_from_pdf(m.group(2))
+        tuesday = process_single_day_from_pdf(m.group(3))
+        wednesday = process_single_day_from_pdf(m.group(4))
+        thursday = process_single_day_from_pdf(m.group(5))
+        friday = process_single_day_from_pdf(m.group(6))
 
-    items_per_day = [monday, tuesday, wednesday, thursday, friday]
+        items_per_day = [monday, tuesday, wednesday, thursday, friday]
 
-    for idx, day in enumerate(items_per_day):
-        if date is None or idx == date.weekday():
-            for item in day:
-                splitted = extract_data_from_text(item)
-                dishes.append(Dish('Schroeders', splitted[0], splitted[1], src=url))
+        for idx, day in enumerate(items_per_day):
+            if date is None or idx == date.weekday():
+                for item in day:
+                    splitted = extract_data_from_text(item)
+                    dishes.append(Dish('Schroeders', splitted[0], splitted[1], src=url))
 
-    return dishes
+        return dishes
+    except Exception:
+        return []

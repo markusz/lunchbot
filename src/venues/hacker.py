@@ -58,6 +58,9 @@ def extracted_text_to_items(text, date=None):
 
 
 def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
-    reader = url_to_pypdf(url)
-    contents = reader.getPage(0).extractText().split('\n')
-    return extracted_text_to_items(contents, date if show_only_current_day else None)
+    try:
+        reader = url_to_pypdf(url)
+        contents = reader.getPage(0).extractText().split('\n')
+        return extracted_text_to_items(contents, date if show_only_current_day else None)
+    except Exception:
+        return []

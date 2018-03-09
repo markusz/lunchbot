@@ -17,23 +17,26 @@ def food_menu_applies_today(provider):
 
 
 def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
-    res = requests.get(
-        api_url,
-        headers={'User-agent': 'crawler'}
-    )
+    try:
+        res = requests.get(
+            api_url,
+            headers={'User-agent': 'crawler'}
+        )
 
-    dishes = []
-    date_string = date.strftime('%Y-%m-%d')
+        dishes = []
+        date_string = date.strftime('%Y-%m-%d')
 
-    for food_offer in res.json()['content']:
-        if food_offer['speiseplanAdvanced']['anzeigename'].strip() == 'Speisenkarte Essbar':
-            for menu_item in (food_offer['speiseplanGerichtData']):
-                dish_raw = menu_item['speiseplanAdvancedGericht']
-                if (dish_raw['datum'].startswith(date_string) or not show_only_current_day) and dish_raw['gerichtkategorieID'] == MAIN:
-                    dish_ = menu_item_to_dish(menu_item)
-                    dishes.append(dish_)
+        for food_offer in res.json()['content']:
+            if food_offer['speiseplanAdvanced']['anzeigename'].strip() == 'Speisenkarte Essbar':
+                for menu_item in (food_offer['speiseplanGerichtData']):
+                    dish_raw = menu_item['speiseplanAdvancedGericht']
+                    if (dish_raw['datum'].startswith(date_string) or not show_only_current_day) and dish_raw['gerichtkategorieID'] == MAIN:
+                        dish_ = menu_item_to_dish(menu_item)
+                        dishes.append(dish_)
 
-    return dishes
+        return dishes
+    except Exception:
+        return []
 
 
 def menu_item_to_dish(menu_item):
