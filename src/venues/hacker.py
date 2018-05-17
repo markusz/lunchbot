@@ -37,7 +37,7 @@ def extracted_text_to_items(text, date=None):
     dishes = []
     joined = ''.join(text)
 
-    m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)Alle Preise verstehen+?(.+)", joined)
+    m = re.match(r"(.+?)Montag+?(.+?)Dienstag+?(.+?)Mittwoch+?(.+?)Donnerstag+?(.+?)Freitag+?(.+)Betreibergesellschaft+?(.+)", joined)
 
     monday = process_single_day_from_pdf(m.group(2))
     tuesday = process_single_day_from_pdf(m.group(3))
@@ -62,5 +62,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
         reader = url_to_pypdf(url)
         contents = reader.getPage(0).extractText().split('\n')
         return extracted_text_to_items(contents, date if show_only_current_day else None)
-    except Exception:
+    except Exception as err:
+        print(err)
         return []
