@@ -39,5 +39,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
             dishes.append(Dish('Cantina', meal_name, meal_ingredients if len(splitted) > 1 else None, float(price), src=url))
 
         return dishes
-    except Exception:
+    except Exception as err:
+        print(err)
         return []

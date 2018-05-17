@@ -63,5 +63,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
                     dishes.append(Dish('Schroeders', splitted[0], splitted[1], src=url))
 
         return dishes
-    except Exception:
+    except Exception as err:
+        print(err)
         return []

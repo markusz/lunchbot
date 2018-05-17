@@ -53,5 +53,6 @@ def get_lunch_for_date(date=datetime.now(), show_only_current_day=True):
         dishes.extend(kit_dishes)
 
         return dishes
-    except Exception:
+    except Exception as err:
+        print(err)
         return []
