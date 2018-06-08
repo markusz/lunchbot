@@ -10,6 +10,8 @@ import src.venues.leonardi as leonardi
 import src.venues.mace as mace
 import src.venues.schroeders as schroeders
 from src.utils.filter_util import filter_dishes_by_user_filters, query_to_filter_params
+from src.utils.ocr_util import get_text_recognition_from_azure_cognitive_v2_sync
+from src.utils.pdf_util import convert_pdf_from_url_to_pil_images
 
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",  # Required for CORS support to work
@@ -80,4 +82,9 @@ if __name__ == '__main__':
             # 'maxprice': 5.00
         }
     }
-    res = get_all_dishes(event, None)
+
+    # pdf_path_to_image("")
+    images = convert_pdf_from_url_to_pil_images("http://www.comfort-hotel-am-medienpark.de/images/pdf/Wochenkarte.pdf")
+    get_text_recognition_from_azure_cognitive_v2_sync(images[0])
+    # res = get_all_dishes(event, None)
+    # hacker.ocr_to_items()

@@ -1,8 +1,8 @@
-from datetime import datetime
+from io import BytesIO
+
 import PyPDF2
 import requests
-from io import BytesIO
-from pdf2image import convert_from_path, convert_from_bytes
+from pdf2image import convert_from_bytes
 
 
 def url_to_pypdf(url):
@@ -15,6 +15,4 @@ def url_to_pypdf(url):
 def convert_pdf_from_url_to_pil_images(url):
     r = requests.get(url)
 
-    images = convert_from_bytes(r.content)
-    images[0].save('test.jpg')
-    return images
+    return convert_from_bytes(r.content)
